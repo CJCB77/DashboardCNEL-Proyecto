@@ -139,7 +139,7 @@
                                 </div>
                                 <i class="bx bx-trending-up"></i>
                             </div>
-                            <span class="label" id="registroNo">500</span>
+                            <span class="label" id="registroNo"></span>
                         </div>
                     </div> 
                 </div>
@@ -153,7 +153,7 @@
                                 </div>
                                 <i class="bx bx-trending-up"></i>
                             </div>
-                            <span class="label" id="tareasNo">500</span>
+                            <span class="label" id="tareasNo"></span>
                         </div>
                     </div> 
                 </div>
@@ -178,7 +178,7 @@
         });
 
         //Get registros length from api
-        fetch('http://localhost:3000/api/registros/complete',{
+        fetch('https://lectura-medidor-api.herokuapp.com/api/registros/complete',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
@@ -191,7 +191,7 @@
                 })
         
         //Get tareas length from api
-        fetch('http://localhost:3000/api/tareas/?username=true',{
+        fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/?username=true',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
