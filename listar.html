@@ -145,7 +145,7 @@
 							<td style="width: 20%;">{{registro.usuario}}</td>
                             <td style="width: 20%;">{{registro.fecha}}</td>
 							<td style="width: 10%;"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" @click="visualizarRegistros(index)">Visualizar</button></td>
-							<td style="width: 10%;"><button type="button" class="btn btn-danger" @click="borrarUsuario(index)">Borrar registro</button></td>
+							<td style="width: 10%;"><button type="button" class="btn btn-danger" @click="borrarRegistro(index)">Borrar registro</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -297,10 +297,19 @@
                         }
                     })
 			},
-			borrarVivienda(index){
-				this.viviendas.splice(index,1)
+			borrarRegistro(index){
                 //post datos al back .then(response=>{this.obtenerVivienda()})
-                
+                fetch('https://lectura-medidor-api.herokuapp.com/api/registros/delete/'+this.registros[index].id,{
+					method:'DELETE',
+					headers:{
+						'authorization':localStorage.getItem('token')
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						this.registros.splice(index,1);
+					})
+		
 			},
 			
 			visualizarRegistros(index){
