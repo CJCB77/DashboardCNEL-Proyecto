@@ -131,22 +131,21 @@
                 </div>
 				<table class="table table-striped" style="width:100%">
 					<thead>
-						<th style="width: 10%;">Id</th>
 						<th style="width: 20%;">Usuario</th>
 						<th style="width: 20%;">Titulo</th>
 						<th style="width: 20%;">Descripcion</th>
                         <th style="width: 20%;">Fecha creacion</th>
-                        <th style="width: 10%; text-align: center;"><btn class="btn btn-secondary"
+                        <th style="width: 20%; text-align: center;"><btn class="btn btn-secondary"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar tarea
                         </btn></th>
 					</thead>
 					<tbody>
 						<tr v-for="(tareas, index) in listadotareas">
-							<td style="width: 10%;">{{tareas.id}}</td>
 							<td style="width: 20%;">{{tareas.usuario}}</td>
 							<td style="width: 20%;">{{tareas.titulo}}</td>
                             <td style="width: 20%;">{{tareas.descripcion}}</td>
-                            <td style="width: 10%;">{{tareas.fecha_creacion}}</td>
+                            <td style="width: 20%;">{{tareas.fecha_creacion}}</td>
+                            <td style="width: 20%;text-align: center;"><button type="button" class="btn btn-danger" @click="borrarTarea(index)">Borrar</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -195,6 +194,7 @@
 			asignarTareas:[
 
 			],
+
             buscador:'',
 			editar:false,
 			id:'',
@@ -255,12 +255,12 @@
 						// 	this.limpiar();
 						// }
                         //Post tarea at http://localhost:3000/api/tareas/add
+                        var username = this.usuario;
                         let data = {
                             usuario: this.usuario,
                             titulo: this.titulo,
                             descripcion: this.descripcion,
                         }
-                        console.log(data)
                         fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/add', {
                             method: 'POST',
                             body: JSON.stringify(data),
@@ -271,17 +271,36 @@
                         })
                         .then(response => response.json())
                         .then(data => {
+                            //Reload tareas
+                            console.log(data.tarea)
+                            date= new Date(data.tarea.fecha_creacion);
+                            let formatedDate = date.toLocaleString();
+                            data.tarea.fecha_creacion = formatedDate;
+                            data.tarea.usuario = username;
+                            this.asignarTareas.unshift(data.tarea)
                             this.limpiar();
-                            this.obtenerTareas();
                         })
 							
-					},
-                    limpiar(){
+			},
+            borrarTarea(index){
+				//Delete vivienda from http://localhost:3000/api/viviendas/delete/:id
+				fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/delete/'+this.asignarTareas[index].id,{
+					method:'DELETE',
+					headers:{
+						'authorization':localStorage.getItem('token')
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						this.asignarTareas.splice(index,1);
+					})
+			},
+            limpiar(){
 						this.usuario="";
 						this.titulo="";
 						this.descripcion="";
 						this.fecha_creacion="";
-					}
+			}
 		}
 
 	})
