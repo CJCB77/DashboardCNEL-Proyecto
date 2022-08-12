@@ -76,7 +76,7 @@
                 <div class="menu">
                     <div class="enlace">
                         <i class="bx bx-message-square"></i>
-                        <span><a href="index.html">Inicio</a></span>
+                        <span><a href="#">Inicio</a></span>
 
                     </div>
                     <div class="enlace">
@@ -88,7 +88,7 @@
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Listar Regristros</span> -->
-                        <span><a href="#">Listar Registros</a></span>
+                        <span><a href="listar.html">Listar Registros</a></span>
                     </div>
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
@@ -99,9 +99,14 @@
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
                         <span><a href="vivienda.html">Vivenda</a></span>
+                    </div>         
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="clientes.html">Clientes</a></span>
                     </div>
-                </div>    
-            </div>
+                </div>     
+            </div>  
         </div>
 
         <main class="espa">
@@ -133,7 +138,7 @@
 					<thead>
 						<th style="width: 20%;">Usuario</th>
 						<th style="width: 20%;">Titulo</th>
-						<th style="width: 20%;">Descripcion</th>
+						<th style="width: 20%;">Estado</th>
                         <th style="width: 20%;">Fecha creacion</th>
                         <th style="width: 20%; text-align: center;"><btn class="btn btn-secondary"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar tarea
@@ -143,7 +148,7 @@
 						<tr v-for="(tareas, index) in listadotareas">
 							<td style="width: 20%;">{{tareas.usuario}}</td>
 							<td style="width: 20%;">{{tareas.titulo}}</td>
-                            <td style="width: 20%;">{{tareas.descripcion}}</td>
+                            <td style="width: 20%;">{{tareas.estado}}</td>
                             <td style="width: 20%;">{{tareas.fecha_creacion}}</td>
                             <td style="width: 20%;text-align: center;"><button type="button" class="btn btn-danger" @click="borrarTarea(index)">Borrar</button></td>
 						</tr>
@@ -168,8 +173,8 @@
                                     <input type="text" v-model="titulo">
                                 </div>
                                 <div class="col">
-                                    <h5>Descripcion:</h5>
-                                    <input type="text"v-model="descripcion">
+                                    <h5>Codigo Vivienda:</h5>
+                                    <input type="text"v-model="codigo_vivienda">
                                 </div>
                             </div>
                             </div>
@@ -200,8 +205,9 @@
 			id:'',
             usuario:'',
             titulo: '',
-            descripcion:'',
+            estado:'',
             fecha_creacion:'',
+            codigo_vivienda:'',
 		},
 		mounted(){
 			this.obtenerTareas();
@@ -226,7 +232,7 @@
 		methods:{
 			obtenerTareas(){
                //Fetch tareas at http://localhost:3000/api/tareas/
-                fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/?username=true',{
+                fetch('http://localhost:3000/api/tareas/?username=true',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
@@ -244,14 +250,16 @@
                         //Get username
                         data[dato].usuario = data[dato].username;
 
+                        data[dato].estado = data[dato].completada ? 'Completada' : 'Pendiente';
+
                         this.asignarTareas.push(data[dato])
                     }
                 })
                 .catch(error => console.log(error))
 			},
             agregarTarea(){
-						// if(this.usuario != "" && this.titulo !="" && this.descripcion!=""){
-						// 	this.asignarTareas.push({usuario:this.usuario, titulo:this.titulo, descripcion:this.descripcion})
+						// if(this.usuario != "" && this.titulo !="" && this.estado!=""){
+						// 	this.asignarTareas.push({usuario:this.usuario, titulo:this.titulo, estado:this.estado})
 						// 	this.limpiar();
 						// }
                         //Post tarea at http://localhost:3000/api/tareas/add
@@ -259,9 +267,9 @@
                         let data = {
                             usuario: this.usuario,
                             titulo: this.titulo,
-                            descripcion: this.descripcion,
+                            codigo_vivienda: this.codigo_vivienda,
                         }
-                        fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/add', {
+                        fetch('http://localhost:3000/api/tareas/add', {
                             method: 'POST',
                             body: JSON.stringify(data),
                             headers: {
@@ -298,7 +306,7 @@
             limpiar(){
 						this.usuario="";
 						this.titulo="";
-						this.descripcion="";
+						this.estado="";
 						this.fecha_creacion="";
 			}
 		}

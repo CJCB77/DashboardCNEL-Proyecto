@@ -76,13 +76,13 @@
                 <div class="menu">
                     <div class="enlace">
                         <i class="bx bx-message-square"></i>
-                        <span><a href="main.html">Inicio</a></span>
+                        <span><a href="#">Inicio</a></span>
 
                     </div>
                     <div class="enlace">
                         <i class="bx bx-user"></i>
                         <!-- <span>Usuarios</span> -->
-                        <span><a href="#">Usuarios</a></span>
+                        <span><a href="usuarios.html">Usuarios</a></span>
                         
                     </div>
                     <div class="enlace">
@@ -99,8 +99,13 @@
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
                         <span><a href="vivienda.html">Vivenda</a></span>
+                    </div>         
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="clientes.html">Clientes</a></span>
                     </div>
-                </div>    
+                </div>     
             </div>
         </div>
 
@@ -260,7 +265,7 @@
 					//});
 					// Fetch http://localhost:3000/api/usuarios for users
 					//Add token to header from localStorage
-					fetch('https://lectura-medidor-api.herokuapp.com/api/usuarios',{
+					fetch('http://localhost:3000/api/usuarios',{
 						headers:{
 							'authorization':localStorage.getItem('token')
 						}
@@ -299,7 +304,7 @@
 					// console.log(index);
 					//Get user id and delete it from the database
 					let id = this.usuarios[index].id;
-					fetch('https://lectura-medidor-api.herokuapp.com/api/usuarios/delete/'+id,{
+					fetch('http://localhost:3000/api/usuarios/delete/'+id,{
 						method:'DELETE',
 						headers:{
 							'authorization':localStorage.getItem('token')

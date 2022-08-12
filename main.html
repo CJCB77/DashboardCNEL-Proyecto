@@ -100,6 +100,11 @@
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
                         <span><a href="vivienda.html">Vivenda</a></span>
+                    </div>         
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="clientes.html">Clientes</a></span>
                     </div>
                 </div>     
             </div>
@@ -178,7 +183,7 @@
         });
 
         //Get registros length from api
-        fetch('https://lectura-medidor-api.herokuapp.com/api/registros/complete',{
+        fetch('http://localhost:3000/api/registros',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
@@ -191,7 +196,7 @@
                 })
         
         //Get tareas length from api
-        fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/?username=true',{
+        fetch('http://localhost:3000/api/tareas',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }

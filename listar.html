@@ -76,7 +76,7 @@
                 <div class="menu">
                     <div class="enlace">
                         <i class="bx bx-message-square"></i>
-                        <span><a href="main.html">Inicio</a></span>
+                        <span><a href="#">Inicio</a></span>
 
                     </div>
                     <div class="enlace">
@@ -88,7 +88,7 @@
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Listar Regristros</span> -->
-                        <span><a href="#">Listar Registros</a></span>
+                        <span><a href="listar.html">Listar Registros</a></span>
                     </div>
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
@@ -99,8 +99,13 @@
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
                         <span><a href="vivienda.html">Vivenda</a></span>
+                    </div>         
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="clientes.html">Clientes</a></span>
                     </div>
-                </div>    
+                </div>     
             </div>
         </div>
 
@@ -246,7 +251,7 @@
 		methods:{
 			obtenerRegistros(){
                 //Fetch registros at http://localhost:3000/api/registros/
-                fetch('https://lectura-medidor-api.herokuapp.com/api/registros/complete',{
+                fetch('http://localhost:3000/api/registros/complete',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
@@ -299,7 +304,7 @@
 			},
 			borrarRegistro(index){
                 //post datos al back .then(response=>{this.obtenerVivienda()})
-                fetch('https://lectura-medidor-api.herokuapp.com/api/registros/delete/'+this.registros[index].id,{
+                fetch('http://localhost:3000/api/registros/delete/'+this.registros[index].id,{
 					method:'DELETE',
 					headers:{
 						'authorization':localStorage.getItem('token')

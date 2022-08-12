@@ -73,10 +73,10 @@
                     <input type="text" class="input" placeholder="Buscar">
                 </div>
                 <!-- MENU -->
-				<div class="menu">
+                <div class="menu">
                     <div class="enlace">
                         <i class="bx bx-message-square"></i>
-                        <span><a href="main.html">Inicio</a></span>
+                        <span><a href="#">Inicio</a></span>
 
                     </div>
                     <div class="enlace">
@@ -98,9 +98,14 @@
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
-                        <span><a href="#">Vivenda</a></span>
+                        <span><a href="vivienda.html">Vivenda</a></span>
+                    </div>         
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="clientes.html">Clientes</a></span>
                     </div>
-                </div>    
+                </div>     
             </div>
         </div>
 		
@@ -131,8 +136,8 @@
 							<th style="width: 20%;">Direccion</th>
 							<th style="width: 10%; text-align: center;">Villa</th>
 							<th style="width: 10%; text-align: center;">Mz</th>
-							<th style="width: 20%; text-align: center;"></th>
-							<th style="width: 20%; text-align: center;"><btn class="btn btn-secondary"
+							<th style="width: 15%; text-align: center;">Propietario</th>
+							<th style="width: 25%; text-align: center;"><btn class="btn btn-secondary"
 								data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar Vivienda
 							</btn></th>
 						</thead>
@@ -142,8 +147,9 @@
 								<td style="width: 20%;">{{vivienda.direccion}}</td>
 								<td style="width: 10%; text-align: center;">{{vivienda.villa}}</td>
 								<td style="width: 10%; ">{{vivienda.mz}}</td>
-								<td style="width: 20%;text-align: center;"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" @click="editarVivienda(index)">Editar Vivienda</button></td>
-								<td style="width: 20%;text-align: center;"><button type="button" class="btn btn-danger" @click="borrarVivienda(index)">Borrar Vivienda</button></td>
+								<td style="width: 10%; ">{{vivienda.id_cliente}}</td>
+								<td style="width: 20%;text-align: center;"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" @click="editarVivienda(index)">Editar</button></td>
+								<td style="width: 20%;text-align: center;"><button type="button" class="btn btn-danger" @click="borrarVivienda(index)">Borrar</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -172,6 +178,10 @@
 									<div class="col">
 										<h5>Villa:</h5>
 										<input type="text"v-model="villa">
+									</div>
+									<div class="col">
+										<h5>Cedula Propietario:</h5>
+										<input type="text"v-model="id_cliente">
 									</div>
 								</div>
 								</div>
@@ -207,6 +217,10 @@
 											<h5>Villa:</h5>
 											<input type="text"v-model="villa">
 										</div>
+										<div class="col">
+											<h5>Cedula Propietario:</h5>
+											<input type="text"v-model="id_cliente">
+										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
@@ -231,12 +245,13 @@
 			creandoViviendas:[
 			
 			],
-
+			id:'',
 			editar:false,
 			codigo:'',
 			direccion: '',
 			mz: '',
-			villa: ''
+			villa: '',
+			id_cliente:'',
 		},
 		mounted(){
 			this.obtenerVivienda();
@@ -253,7 +268,7 @@
 		methods:{
 			obtenerVivienda(){
 				//Get viviendas from http://localhost:3000/api/viviendas 
-				fetch('https://lectura-medidor-api.herokuapp.com/api/viviendas',{
+				fetch('http://localhost:3000/api/viviendas',{
 					headers:{
 						'authorization':localStorage.getItem('token')
 					}
@@ -267,7 +282,7 @@
 			},
 			borrarVivienda(index){
 				//Delete vivienda from http://localhost:3000/api/viviendas/delete/:id
-				fetch('https://lectura-medidor-api.herokuapp.com/api/viviendas/delete/'+this.creandoViviendas[index].id,{
+				fetch('http://localhost:3000/api/viviendas/delete/'+this.creandoViviendas[index].id,{
 					method:'DELETE',
 					headers:{
 						'authorization':localStorage.getItem('token')
@@ -284,6 +299,7 @@
 				this.direccion= this.creandoViviendas[index].direccion;
 				this.mz= this.creandoViviendas[index].mz;
 				this.villa= this.creandoViviendas[index].villa;
+				this.id_cliente= this.creandoViviendas[index].id_cliente;
 			
 			},
 			actualizar(){
@@ -294,7 +310,7 @@
 				// 	this.limpiar();
 				// }
 				//Update vivienda from http://localhost:3000/api/viviendas/update/:id
-				fetch('https://lectura-medidor-api.herokuapp.com/api/viviendas/update/'+ this.codigo,{
+				fetch('http://localhost:3000/api/viviendas/update/'+ this.codigo,{
 					method:'PUT',
 					headers:{
 						'Content-Type':'application/json',
@@ -303,14 +319,15 @@
 					body:JSON.stringify({
 						direccion:this.direccion,
 						mz:this.mz,
-						villa:this.villa
+						villa:this.villa,
+						id_cliente:this.id_cliente
 					})
 				})
 					.then(response => response.json())
 					.then(data => {
 						//Update array where codigo is equal to this.codigo
 						let index = this.indexWhere(this.creandoViviendas , vivienda => vivienda.codigo == this.codigo)
-						this.creandoViviendas[index]={codigo:this.codigo, direccion:this.direccion, mz:this.mz, villa:this.villa}
+						this.creandoViviendas[index]={codigo:this.codigo, direccion:this.direccion, mz:this.mz, villa:this.villa, id_cliente:this.id_cliente}
 						this.limpiar();
 					})
 			},
@@ -320,7 +337,7 @@
 				// 	this.limpiar();
 				// }
 				//Add vivienda to http://localhost:3000/api/viviendas/add
-				fetch('https://lectura-medidor-api.herokuapp.com/api/viviendas/add',{
+				fetch('http://localhost:3000/api/viviendas/add',{
 					method:'POST',
 					headers:{
 						'Content-Type':'application/json',
@@ -330,7 +347,8 @@
 						codigo:this.codigo,
 						direccion:this.direccion,
 						mz:this.mz,
-						villa:this.villa
+						villa:this.villa,
+						id_cliente:this.id_cliente
 					})
 				})
 					.then(response => response.json())
@@ -350,12 +368,12 @@
 				this.direccion="";
 				this.mz="";
 				this.villa="";
+				this.id_cliente="";
 				this.editar=false;
 			}
 		}
 
 	})
 </script>
-
 </body >
 </html>
