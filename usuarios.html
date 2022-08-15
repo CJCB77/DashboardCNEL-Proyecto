@@ -92,6 +92,11 @@
                     </div>
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="planillas.html">Planillas</a></span>
+                    </div>
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
                         <!-- <span>Asignar Tareas</span> -->
                         <span><a href="asignartareas.html">Asignar Tareas</a></span>
                     </div>
@@ -105,7 +110,8 @@
                         <!-- <span>Vivienda</span> -->
                         <span><a href="clientes.html">Clientes</a></span>
                     </div>
-                </div>     
+              
+                </div>  
             </div>
         </div>
 
@@ -263,9 +269,9 @@
 					//	for(dato in response.data)
 					//		this.usuarios.push({id:dato.id, username:dato.username, password:dato.password,})
 					//});
-					// Fetch http://localhost:3000/api/usuarios for users
+					// Fetch https://lectura-medidor-api.herokuapp.com/api/usuarios for users
 					//Add token to header from localStorage
-					fetch('http://localhost:3000/api/usuarios',{
+					fetch('https://lectura-medidor-api.herokuapp.com/api/usuarios',{
 						headers:{
 							'authorization':localStorage.getItem('token')
 						}
@@ -304,7 +310,7 @@
 					// console.log(index);
 					//Get user id and delete it from the database
 					let id = this.usuarios[index].id;
-					fetch('http://localhost:3000/api/usuarios/delete/'+id,{
+					fetch('https://lectura-medidor-api.herokuapp.com/api/usuarios/delete/'+id,{
 						method:'DELETE',
 						headers:{
 							'authorization':localStorage.getItem('token')
@@ -363,7 +369,7 @@
 					// 	this.usuarios.push({id:this.id, username:this.username, password:this.password, rol:this.rol})
 					// 	this.limpiar();
 					// }
-					//Post http://localhost:3000/api/auth/register new user
+					//Post https://lectura-medidor-api.herokuapp.com/api/auth/register new user
 					fetch('https://lectura-medidor-api.herokuapp.com/api/auth/register',{
 						method:'POST',
 						headers:{

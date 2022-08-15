@@ -128,7 +128,7 @@
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="#">Clientes</a>
+							<a class="active" href="#">Planillas</a>
 						</li>
 					</ul>
 				</div>
@@ -138,104 +138,28 @@
 				<div class="container">
 					<table class="table table-striped" style="width:100%; ">
 						<thead>
-							<th style="width: 15%;">Cedula</th>
-							<th style="width: 15%;">Nombres</th>
-							<th style="width: 15%; text-align: center;">Apellidos</th>
-							<th style="width: 15%; text-align: center;">Correo</th>
-							<th style="width: 15%; text-align: center;">Celular</th>
-							<th style="width: 20%; text-align: center;"><btn class="btn btn-secondary"
-								data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar Cliente
-							</btn></th>
+							<th style="width: 15%;">Ced. Cliente</th>
+							<th style="width: 20%;">Nombre</th>
+							<th style="width: 15%; text-align: center;">Vivienda</th>
+							<th style="width: 10%; text-align: center;">Valor</th>
+							<th style="width: 15%; text-align: center;">Fecha emision</th>
+							<th style="width: 20%; text-align: center;"></th>
+
 						</thead>
 						<tbody >
-							<tr v-for="(cliente, index) in clientes">
-								<td style="width: 15%;">{{cliente.cedula}}</td>
-								<td style="width: 15%;">{{cliente.nombres}}</td>
-								<td style="width: 15%; text-align: center;">{{cliente.apellidos}}</td>
-								<td style="width: 15%; ">{{cliente.correo}}</td>
-								<td style="width: 15%; ">{{cliente.celular}}</td>
-								<td style="width: 15%;text-align: center;"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" @click="editarVivienda(index)">Editar</button></td>
+							<tr v-for="(planilla, index) in planillas">
+								<td style="width: 15%;">{{planilla.cedula}}</td>
+								<td style="width: 20%;">{{planilla.nombre}}</td>
+								<td style="width: 15%;text-align: center">{{planilla.codigo_vivienda}}</td>
+								<td style="width: 10%;text-align: center; ">{{planilla.valor}}</td>
+								<td style="width: 15%; text-align: center; ">{{planilla.fecha_emision}}</td>
+								<td style="width: 10%;text-align: center;"><button type="button" class="btn btn-dark" @click="descargarPdf(index)">Descargar</button></td>
 								<td style="width: 10%;text-align: center;"><button type="button" class="btn btn-danger" @click="borrarVivienda(index)">Eliminar</button></td>
 							</tr>
 						</tbody>
 					</table>
 
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-								<div class="row">
-									<div class="col">
-										<h5>Cedula:</h5>
-										<input type="text" v-model="cedula">
-									</div>
-									<div class="col">
-										<h5>Nombres:</h5>
-										<input type="text" v-model="nombres">
-									</div>
-									<div class="col">
-										<h5>Apellidos:</h5>
-										<input type="text"v-model="apellidos">
-									</div>
-									<div class="col">
-										<h5>Correo:</h5>
-										<input type="text"v-model="correo">
-									</div>
-									<div class="col">
-										<h5>Celular</h5>
-										<input type="text"v-model="celular">
-									</div>
-								</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="limpiar">Cerrar</button>
-									<button type="button" class="btn btn-primary" @click="agregarCliente">Guardar</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Modal Editar</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<div class="row">
-										<div class="col">
-											<h5>Cedula:</h5>
-											<input type="text" v-model="cedula">
-										</div>
-										<div class="col">
-											<h5>Nombres:</h5>
-											<input type="text" v-model="nombres">
-										</div>
-										<div class="col">
-											<h5>Apellidos:</h5>
-											<input type="text"v-model="apellidos">
-										</div>
-										<div class="col">
-											<h5>Correo:</h5>
-											<input type="text"v-model="correo">
-										</div>
-										<div class="col">
-											<h5>Celular</h5>
-											<input type="text"v-model="celular">
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="limpiar">Close</button>
-								<button type="button" class="btn btn-primary" @click="actualizar">Save changes</button>
-								</div>
-							</div>
-						</div>
-					</div>  
+					
 				</div>
 			</div>
 		</main> 
@@ -248,19 +172,19 @@
 	const app = new Vue({
 		el:'#app',
 		data:{
-			clientes:[
+			planillas:[
 			
 			],
 
 			id:'',
 			cedula:'',
-			nombres: '',
-			apellidos: '',
-			correo: '',
-			celular: '',
+			valor: '',
+			nombre: '',
+			codigo_vivienda: '',
+			fecha_emision: '',
 		},
 		mounted(){
-			this.obtenerClientes();
+			this.obtenerPlanillas();
 			var user = localStorage.getItem('username');
         	var user = JSON.parse(user);
         	document.getElementById('currentUser').innerHTML = user;
@@ -272,23 +196,28 @@
 			});
 		},
 		methods:{
-			obtenerClientes(){
+			obtenerPlanillas(){
 				//Get viviendas from https://lectura-medidor-api.herokuapp.com/api/viviendas 
-				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes',{
+				fetch('https://lectura-medidor-api.herokuapp.com/api/planillas',{
 					headers:{
 						'authorization':localStorage.getItem('token')
 					}
 				})
 					.then(response => response.json())
 					.then(data => {
+                        console.log(data);
 						for(dato in data){
-							this.clientes.push(data[dato]);
+                            data[dato].nombre = data[dato].nombres + ' ' + data[dato].apellidos;
+                            data[dato].fecha_emision = data[dato].fecha_emision.substring(0,10);
+                            data[dato].valor = ' $' + data[dato].valor;
+							this.planillas.push(data[dato]);
+                    
 						}
 					})
 			},
 			borrarVivienda(index){
 				//Delete vivienda from https://lectura-medidor-api.herokuapp.com/api/viviendas/delete/:id
-				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes/delete/'+ this.clientes[index].id,{
+				fetch('https://lectura-medidor-api.herokuapp.com/api/planillas/delete/'+ this.planillas[index].id,{
 					method:'DELETE',
 					headers:{
 						'authorization':localStorage.getItem('token')
@@ -296,95 +225,30 @@
 				})
 					.then(response => response.json())
 					.then(data => {
-						this.clientes.splice(index,1);
+						this.planillas.splice(index,1);
 					})
 			},
-			editarVivienda(index){
-				this.id = this.clientes[index].id;
-				this.cedula= this.clientes[index].cedula;
-				this.nombres= this.clientes[index].nombres;
-				this.apellidos= this.clientes[index].apellidos;
-				this.correo= this.clientes[index].correo;
-				this.celular= this.clientes[index].celular;
-			
-			},
-			actualizar(){
-				console.log(this.id);
-				// if(this.id != "" && this.codigo !="" && this.direccion != "" && this.mz != "" && this.villa !="" && this.editar){
-				// 	let index = this.indexWhere(this.creandoViviendas , vivienda => vivienda.id == this.id)
-				
-				// 	this.creandoViviendas[index]={codigo:this.codigo, direccion:this.direccion, mz:this.mz, villa:this.villa}
-				// 	this.limpiar();
-				// }
-				//Update vivienda from https://lectura-medidor-api.herokuapp.com/api/viviendas/update/:id
-				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes/update/'+ this.id ,{
-					method:'PUT',
-					headers:{
-						'Content-Type':'application/json',
-						'authorization':localStorage.getItem('token')
-					},
-					body:JSON.stringify({
-						nombres:this.nombres,
-						apellidos:this.apellidos,
-						correo:this.correo,
-						celular:this.celular,
-						cedula:this.cedula
-					})
-				})
-					.then(response => response.json())
-					.then(data => {
-						//Update array where codigo is equal to this.codigo
-						let index = this.indexWhere(this.clientes , cliente => cliente.id == this.id)
-						this.clientes[index]={
-							nombres:this.nombres, 
-							apellidos:this.apellidos, 
-							celular:this.celular, 
-							cedula:this.cedula,
-							correo:this.correo,
-						}
-						this.limpiar();
-					})
-			},
-			agregarCliente(){
-				// if(this.codigo != "" &&  this.direccion != "" && this.mz != "" && this.villa !=""){
-				// 	this.creandoViviendas.push({codigo:this.codigo, direccion:this.direccion, mz:this.mz, villa:this.vill})
-				// 	this.limpiar();
-				// }
-				//Add vivienda to https://lectura-medidor-api.herokuapp.com/api/viviendas/add
-				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes/add',{
-					method:'POST',
-					headers:{
-						'Content-Type':'application/json',
-						'authorization':localStorage.getItem('token')
-					},
-					body:JSON.stringify({
-						nombres:this.nombres,
-						apellidos:this.apellidos,
-						correo:this.correo,
-						celular:this.celular,
-						cedula:this.cedula
-					})
-				})
-					.then(response => response.json())
-					.then(data => {
-						this.clientes.push(data.cliente);
-						this.limpiar();
-					})
-					
-			},
+            descargarPdf(index){
+                //Fetch pdf from https://lectura-medidor-api.herokuapp.com/api/planillas/pdf/'+ this.planillas[index].id
+                fetch('https://lectura-medidor-api.herokuapp.com/api/planillas/pdf/'+ this.planillas[index].id,{
+                    headers:{
+                        'authorization':localStorage.getItem('token'),
+                        'Content-Type':'application/pdf'
+                    }
+                })
+                .then(response => response.blob())
+                .then(data => {
+                    var file = new Blob([data], {type: 'application/pdf'});
+                    var fileURL = URL.createObjectURL(file);
+                    window.open(fileURL);
+                })
+                
+        
+            },
 			indexWhere(array, conditionFn) {
 				const item = array.find(conditionFn)
 				return array.indexOf(item)
 			},
-
-			limpiar(){
-				this.id="";
-				this.cedula="";
-				this.nombres="";
-				this.apellidos="";
-				this.correo="";
-				this.celular="";
-			}
 		}
 
 	})

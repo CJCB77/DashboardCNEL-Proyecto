@@ -92,6 +92,11 @@
                     </div>
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="planillas.html">Planillas</a></span>
+                    </div>
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
                         <!-- <span>Asignar Tareas</span> -->
                         <span><a href="asignartareas.html">Asignar Tareas</a></span>
                     </div>
@@ -105,6 +110,7 @@
                         <!-- <span>Vivienda</span> -->
                         <span><a href="clientes.html">Clientes</a></span>
                     </div>
+              
                 </div>     
             </div>
         </div>
@@ -138,8 +144,8 @@
 					<thead>
 						<th style="width: 20%;">Codigo Vivienda</th>
 						<th style="width: 20%;">Lectura</th>
-						<th style="width: 20%;">Usuario</th>
-						<th style="width: 20%;">Fecha modificacion</th>
+						<th style="width: 10%;">Usuario</th>
+						<th style="width: 20%;">Fecha de Captura</th>
                         <th style="width: 10%;"></th>
 						<th style="width: 10%;"></th>
 					</thead>
@@ -147,10 +153,11 @@
 						<tr v-for="(registro, index) in listadoRegistros">
 							<td style="width: 20%;">{{registro.codigo}}</td>
 							<td style="width: 20%;">{{registro.lectura}}</td>
-							<td style="width: 20%;">{{registro.usuario}}</td>
+							<td style="width: 10%;">{{registro.usuario}}</td>
                             <td style="width: 20%;">{{registro.fecha}}</td>
 							<td style="width: 10%;"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" @click="visualizarRegistros(index)">Visualizar</button></td>
-							<td style="width: 10%;"><button type="button" class="btn btn-danger" @click="borrarRegistro(index)">Borrar registro</button></td>
+							<td style="width: 10%;"><button type="button" class="btn btn-danger" @click="borrarRegistro(index)">Eliminar</button></td>
+							<td style="width: 10%;"><button type="button" class="btn btn-dark" @click="generarPlantilla(index)">Generar</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -227,6 +234,7 @@
             foto:'',
             procesada:'',
             coordenadas:'',
+            ult_registro:'',
 		},
 		mounted(){
 			this.obtenerRegistros();
@@ -250,8 +258,8 @@
         },
 		methods:{
 			obtenerRegistros(){
-                //Fetch registros at http://localhost:3000/api/registros/
-                fetch('http://localhost:3000/api/registros/complete',{
+                //Fetch registros at https://lectura-medidor-api.herokuapp.com/api/registros/
+                fetch('https://lectura-medidor-api.herokuapp.com/api/registros/complete',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
@@ -264,7 +272,7 @@
                             //Get usuario
                             let usuario = dato.username;
                             //Get lectura
-                            let lectura = dato.lectura;
+                            let lectura = dato.lectura + " Kw";
                             //Get fecha
                             let fecha = dato.fecha_creacion;
                             //Format timestampz to date
@@ -284,6 +292,8 @@
                             let villa = dato.villa;
                             //Get procesada
                             let imgProcesada = dato.imagen_procesada;
+                            //Get ult_registro
+                            let ult_registro = dato.ult_registro;
                             console.log(dato.imagen_procesada);
                             //Push to registros
                             this.registros.push({
@@ -297,18 +307,20 @@
                                 villa:villa,
                                 foto:imagen,
                                 procesada: imgProcesada,
-                                coordenadas:coordenadas
+                                coordenadas:coordenadas,
+                                ult_registro:ult_registro
                             })
                         }
                     })
 			},
 			borrarRegistro(index){
                 //post datos al back .then(response=>{this.obtenerVivienda()})
-                fetch('http://localhost:3000/api/registros/delete/'+this.registros[index].id,{
+                fetch('https://lectura-medidor-api.herokuapp.com/api/registros/delete/'+this.registros[index].id,{
 					method:'DELETE',
 					headers:{
 						'authorization':localStorage.getItem('token')
 					}
+                    
 				})
 					.then(response => response.json())
 					.then(data => {
@@ -331,6 +343,29 @@
                 this.coordenadas= this.registros[index].coordenadas;
                 
 			},
+
+            generarPlantilla(index){
+                fetch("https://lectura-medidor-api.herokuapp.com/api/planillas/add/", {
+                    method:'POST',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'authorization':localStorage.getItem('token')
+                    },
+                    body:JSON.stringify({
+                        id_registro:this.registros[index].id,
+                        codigo:this.registros[index].codigo,
+                        ult_registro:this.registros[index].ult_registro,
+                        fecha:this.registros[index].fecha,
+                        lectura:this.registros[index].lectura,
+                        
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.href = 'planillas.html';
+
+                    })
+            }
 		}
 
 	})

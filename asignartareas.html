@@ -92,6 +92,11 @@
                     </div>
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
+                        <!-- <span>Vivienda</span> -->
+                        <span><a href="planillas.html">Planillas</a></span>
+                    </div>
+                    <div class="enlace">
+                        <i class="bx bx-grid-alt"></i>
                         <!-- <span>Asignar Tareas</span> -->
                         <span><a href="asignartareas.html">Asignar Tareas</a></span>
                     </div>
@@ -105,6 +110,7 @@
                         <!-- <span>Vivienda</span> -->
                         <span><a href="clientes.html">Clientes</a></span>
                     </div>
+              
                 </div>     
             </div>  
         </div>
@@ -231,8 +237,8 @@
         },
 		methods:{
 			obtenerTareas(){
-               //Fetch tareas at http://localhost:3000/api/tareas/
-                fetch('http://localhost:3000/api/tareas/?username=true',{
+               //Fetch tareas at https://lectura-medidor-api.herokuapp.com/api/tareas/
+                fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/?username=true',{
                     headers:{
                         'authorization':localStorage.getItem('token')
                     }
@@ -262,14 +268,14 @@
 						// 	this.asignarTareas.push({usuario:this.usuario, titulo:this.titulo, estado:this.estado})
 						// 	this.limpiar();
 						// }
-                        //Post tarea at http://localhost:3000/api/tareas/add
+                        //Post tarea at https://lectura-medidor-api.herokuapp.com/api/tareas/add
                         var username = this.usuario;
                         let data = {
                             usuario: this.usuario,
                             titulo: this.titulo,
                             codigo_vivienda: this.codigo_vivienda,
                         }
-                        fetch('http://localhost:3000/api/tareas/add', {
+                        fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/add', {
                             method: 'POST',
                             body: JSON.stringify(data),
                             headers: {
@@ -291,7 +297,7 @@
 							
 			},
             borrarTarea(index){
-				//Delete vivienda from http://localhost:3000/api/viviendas/delete/:id
+				//Delete vivienda from https://lectura-medidor-api.herokuapp.com/api/viviendas/delete/:id
 				fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/delete/'+this.asignarTareas[index].id,{
 					method:'DELETE',
 					headers:{
