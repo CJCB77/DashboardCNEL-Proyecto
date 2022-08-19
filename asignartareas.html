@@ -76,7 +76,7 @@
                 <div class="menu">
                     <div class="enlace">
                         <i class="bx bx-message-square"></i>
-                        <span><a href="#">Inicio</a></span>
+                        <span><a href="main.html">Inicio</a></span>
 
                     </div>
                     <div class="enlace">
@@ -103,7 +103,7 @@
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
-                        <span><a href="vivienda.html">Vivenda</a></span>
+                        <span><a href="vivienda.html">Vivienda</a></span>
                     </div>         
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
@@ -143,7 +143,7 @@
 				<table class="table table-striped" style="width:100%">
 					<thead>
 						<th style="width: 20%;">Usuario</th>
-						<th style="width: 20%;">Titulo</th>
+						<th style="width: 20%;">Vivienda</th>
 						<th style="width: 20%;">Estado</th>
                         <th style="width: 20%;">Fecha creacion</th>
                         <th style="width: 20%; text-align: center;"><btn class="btn btn-secondary"
@@ -153,7 +153,7 @@
 					<tbody>
 						<tr v-for="(tareas, index) in listadotareas">
 							<td style="width: 20%;">{{tareas.usuario}}</td>
-							<td style="width: 20%;">{{tareas.titulo}}</td>
+							<td style="width: 20%;">{{tareas.codigo_vivienda}}</td>
                             <td style="width: 20%;">{{tareas.estado}}</td>
                             <td style="width: 20%;">{{tareas.fecha_creacion}}</td>
                             <td style="width: 20%;text-align: center;"><button type="button" class="btn btn-danger" @click="borrarTarea(index)">Borrar</button></td>
@@ -173,10 +173,6 @@
                                 <div class="col">
                                     <h5>Usuario:</h5>
                                     <input type="text" v-model="usuario">
-                                </div>
-                                <div class="col">
-                                    <h5>Titulo:</h5>
-                                    <input type="text" v-model="titulo">
                                 </div>
                                 <div class="col">
                                     <h5>Codigo Vivienda:</h5>
@@ -210,7 +206,6 @@
 			editar:false,
 			id:'',
             usuario:'',
-            titulo: '',
             estado:'',
             fecha_creacion:'',
             codigo_vivienda:'',
@@ -272,7 +267,6 @@
                         var username = this.usuario;
                         let data = {
                             usuario: this.usuario,
-                            titulo: this.titulo,
                             codigo_vivienda: this.codigo_vivienda,
                         }
                         fetch('https://lectura-medidor-api.herokuapp.com/api/tareas/add', {
@@ -311,7 +305,6 @@
 			},
             limpiar(){
 						this.usuario="";
-						this.titulo="";
 						this.estado="";
 						this.fecha_creacion="";
 			}

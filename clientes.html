@@ -76,7 +76,7 @@
                 <div class="menu">
                     <div class="enlace">
                         <i class="bx bx-message-square"></i>
-                        <span><a href="#">Inicio</a></span>
+                        <span><a href="main.html">Inicio</a></span>
 
                     </div>
                     <div class="enlace">
@@ -103,7 +103,7 @@
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
                         <!-- <span>Vivienda</span> -->
-                        <span><a href="vivienda.html">Vivenda</a></span>
+                        <span><a href="vivienda.html">Vivienda</a></span>
                     </div>         
                     <div class="enlace">
                         <i class="bx bx-grid-alt"></i>
@@ -273,7 +273,7 @@
 		},
 		methods:{
 			obtenerClientes(){
-				//Get viviendas from https://lectura-medidor-api.herokuapp.com/api/viviendas 
+				//Get viviendas from http://localhost:3000/api/viviendas 
 				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes',{
 					headers:{
 						'authorization':localStorage.getItem('token')
@@ -287,7 +287,7 @@
 					})
 			},
 			borrarVivienda(index){
-				//Delete vivienda from https://lectura-medidor-api.herokuapp.com/api/viviendas/delete/:id
+				//Delete vivienda from http://localhost:3000/api/viviendas/delete/:id
 				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes/delete/'+ this.clientes[index].id,{
 					method:'DELETE',
 					headers:{
@@ -316,7 +316,7 @@
 				// 	this.creandoViviendas[index]={codigo:this.codigo, direccion:this.direccion, mz:this.mz, villa:this.villa}
 				// 	this.limpiar();
 				// }
-				//Update vivienda from https://lectura-medidor-api.herokuapp.com/api/viviendas/update/:id
+				//Update vivienda from http://localhost:3000/api/viviendas/update/:id
 				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes/update/'+ this.id ,{
 					method:'PUT',
 					headers:{
@@ -350,7 +350,7 @@
 				// 	this.creandoViviendas.push({codigo:this.codigo, direccion:this.direccion, mz:this.mz, villa:this.vill})
 				// 	this.limpiar();
 				// }
-				//Add vivienda to https://lectura-medidor-api.herokuapp.com/api/viviendas/add
+				//Add vivienda to http://localhost:3000/api/viviendas/add
 				fetch('https://lectura-medidor-api.herokuapp.com/api/clientes/add',{
 					method:'POST',
 					headers:{
